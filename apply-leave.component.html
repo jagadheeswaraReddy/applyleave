@@ -1,0 +1,45 @@
+<p-messages [value]="msgs"></p-messages>
+<div style="max-width: 960px; margin: 0 auto;">
+        <div class="field" style="margin-bottom: 8px;">
+            <select [class.empty]="!leaveType && !leaveSelectFocus" id="leave-type" (focus)="leaveSelectFocus=true"
+                    (blur)="leaveSelectFocus=false" [(ngModel)]="leaveType" (change)="onChange()">
+                <option *ngFor="let option of leaveTypeOptions" [value]="option.value">{{option.label}}</option>
+            </select>
+            <label for="leave-type">Leave type</label>
+        </div>
+
+        <div *ngIf = "(leaveType > 0) && questions" class="ui-g">
+            <div class="ui-grid-row mobile-full-width center-div">
+                <div *ngIf="curLeaveBal" class="leave-chart-container ui-grid-col-12 apply-leave-chart-container">
+                    <leave-chart [leaveBal]="curLeaveBal"></leave-chart>
+                    <table class="table">
+                        <tr>
+                            <th>Entitlement</th>
+                            <td>{{curLeaveBal.entitlement | number : '1.1-1'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Current Balance</th>
+                            <td [ngClass]="{'text-danger' : curLeaveBal.currentLeaveBalance <= 0}">
+                                {{curLeaveBal.currentLeaveBalance |
+                                number : '1.1-1'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Annual Balance</th>
+                            <td [ngClass]="{'text-danger' : curLeaveBal.yearlyLeaveBalance <= 0}">
+                                {{curLeaveBal.yearlyLeaveBalance |
+                                number : '1.1-1'}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div *ngIf="questions && allowed">Number of days: {{numberOfDays | number : '1.1-1'}}</div>
+            <df *ngIf="allowed" [questions]="questions" (payload)="submit($event)"
+                class="ui-g-12" (valueChange)="updateNumberOfDays($event)"></df>
+            <div *ngIf="!allowed" class="ui-g-12 center">
+                <span class="text-danger">You are not allowed to apply for {{curLeaveBal.leaveType.description}}</span>
+            </div>
+        </div>
+</div>
+<app-wait-block *ngIf="waiting"></app-wait-block>
