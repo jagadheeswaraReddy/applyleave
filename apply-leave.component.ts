@@ -51,6 +51,10 @@ export class ApplyLeaveComponent implements OnInit, OnDestroy {
         this.alive = false;
     }
 
+
+
+
+
     constructor(
         private holidayService: HolidayService,
         private yeService: YearlyEntitlementService,
