@@ -38,7 +38,7 @@
             <df *ngIf="allowed" [questions]="questions" (payload)="submit($event)"
                 class="ui-g-12" (valueChange)="updateNumberOfDays($event)"></df>
             <div *ngIf="!allowed" class="ui-g-12 center">
-                <span class="text-danger">You are not allowed to apply for {{curLeaveBal.leaveType.description}}</span>
+                <span class="text-danger">You are not allowed to apply for  this role ---->{{curLeaveBal.leaveType.description}}</span>
             </div>
         </div>
 </div>
